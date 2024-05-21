@@ -41,7 +41,7 @@ import defineError from '@sumor/error'
 
 const MyError = defineError({
   name: 'MyError',
-  messages: {
+  code: {
     USER_NOT_FOUND: 'User not found',
     USER_EXISTED: 'User {name} existed'
   }
@@ -62,7 +62,7 @@ import defineError from '@sumor/error'
 const MyError = defineError({
   name: 'MyError',
   language: 'en', // default language
-  messages: {
+  code: {
     USER_NOT_FOUND: 'User not found',
     USER_EXISTED: 'User {name} existed'
   },
@@ -74,42 +74,24 @@ const MyError = defineError({
   }
 })
 
-throw new MyError('USER_NOT_FOUND')
-// output: Error: User not found
-
-throw new MyError('USER_EXISTED', { name: 'Alice' })
-// output: Error: User Alice existed
-
-MyError.language = 'zh' // change Error Class default language
-
-throw new MyError('USER_NOT_FOUND')
-// output: Error: 用户未找到
-
-throw new MyError('USER_EXISTED', { name: 'Alice' })
-// output: Error: 用户 Alice 已存在
-
 const error = new MyError('USER_EXISTED', { name: 'Alice' })
 error.language = 'en' // change Error language
 console.log(error)
 // output: Error: User Alice existed
-console.log(error.json())
-// output: {"code":"USER_EXISTED","message":"User Alice existed"}
 
 error.language = 'zh' // change Error language
 console.log(error)
 // output: Error: 用户 Alice 已存在
-console.log(error.json())
-// output: {"code":"USER_EXISTED","message":"用户 Alice 已存在"}
 ```
 
-### Convert Error
+### Convert Error to JSON
 
 ```js
 import defineError from '@sumor/error'
 
 const MyError = defineError({
   name: 'MyError',
-  messages: {
+  code: {
     USER_NOT_FOUND: 'User not found',
     USER_EXISTED: 'User {name} existed'
   }
@@ -127,10 +109,17 @@ import defineError from '@sumor/error'
 
 const MyError = defineError({
   name: 'MyError',
-  messages: {
+  code: {
     FIELD_VERIFY_FAILED: 'Field verify failed',
     FIELD_CANNOT_EMPTY: 'Field {name} cannot be empty',
     FIELD_TOO_LONG: 'Field {name} is too long'
+  },
+  i18n: {
+    zh: {
+      FIELD_VERIFY_FAILED: '字段验证失败',
+      FIELD_CANNOT_EMPTY: '字段 {name} 不能为空',
+      FIELD_TOO_LONG: '字段 {name} 过长'
+    }
   }
 })
 
@@ -156,6 +145,25 @@ output:
   ]
 }
 */
+
+error.language = 'zh'
+console.log(error.json())
+/*
+output:
+{
+  "code":"FIELD_VERIFY_FAILED",
+  "message":"字段验证失败",
+  "errors":[
+    {
+      "code":"FIELD_CANNOT_EMPTY",
+      "message":"字段 username 不能为空"
+    },{
+      "code":"FIELD_TOO_LONG",
+      "message":"字段 password 过长"
+    }
+  ]
+}
+*/
 ```
 
 ### Combine Standard Error
@@ -165,7 +173,7 @@ import defineError from '@sumor/error'
 
 const MyError = defineError({
   name: 'MyError',
-  messages: {
+  code: {
     FIELD_VERIFY_FAILED: 'Field verify failed',
     FIELD_CANNOT_EMPTY: 'Field {name} cannot be empty',
     FIELD_TOO_LONG: 'Field {name} is too long'
@@ -194,61 +202,6 @@ output:
     },{
       "code":"UNKNOWN_ERROR",
       "message":"Unknown Error"
-    }
-  ]
-}
- */
-```
-
-### Load Error
-
-```js
-import defineError from '@sumor/error'
-
-const MyError = defineError({
-  name: 'MyError',
-  messages: {
-    FIELD_VERIFY_FAILED: 'Field verify failed',
-    FIELD_CANNOT_EMPTY: 'Field {name} cannot be empty',
-    FIELD_TOO_LONG: 'Field {name} is too long'
-  },
-  i18n: {
-    zh: {
-      FIELD_VERIFY_FAILED: '字段验证失败',
-      FIELD_CANNOT_EMPTY: '字段 {name} 不能为空',
-      FIELD_TOO_LONG: '字段 {name} 过长'
-    }
-  }
-})
-
-const error = MyError.load({
-  code: 'FIELD_VERIFY_FAILED',
-  message: 'Field verify failed',
-  errors: [
-    {
-      code: 'FIELD_CANNOT_EMPTY',
-      message: 'Field username cannot be empty'
-    },
-    {
-      code: 'FIELD_TOO_LONG',
-      message: 'Field password is too long'
-    }
-  ]
-})
-
-console.log(error.translate('zh').json())
-/*
-output:
-{
-  "code":"FIELD_VERIFY_FAILED",
-  "message":"字段验证失败",
-  "errors":[
-    {
-      "code":"FIELD_CANNOT_EMPTY",
-      "message":"字段 username 不能为空"
-    },{
-      "code":"FIELD_TOO_LONG",
-      "message":"字段 password 过长"
     }
   ]
 }
