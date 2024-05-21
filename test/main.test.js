@@ -258,4 +258,16 @@ describe('main', () => {
       ]
     })
   })
+  it('Error message is readonly', () => {
+    const MyError = defineError({
+      code: {
+        FIELD_VERIFY_FAILED: 'Field verify failed'
+      }
+    })
+
+    const error = new MyError('FIELD_VERIFY_FAILED')
+    expect(() => {
+      error.message = 'Field verify failed'
+    }).toThrowError('message is readonly, please use code and data to set message.')
+  })
 })

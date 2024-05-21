@@ -21,6 +21,10 @@ export default options => {
       }
     }
 
+    set message(message) {
+      throw new Error('message is readonly, please use code and data to set message.')
+    }
+
     get message() {
       const i18n = getI18n(this.language, i18nConfig)
       return i18n(this.code, this.data)
