@@ -1,7 +1,7 @@
 {
   "name": "@sumor/error",
   "description": "A error handling library support multi-language, predefine error code and passing data.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "repository": "sumor-cloud/error",
   "author": "Sumor Cloud Ltd",
