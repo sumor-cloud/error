@@ -40,7 +40,6 @@ please change the following code in your `package.json` file:
 import defineError from '@sumor/error'
 
 const MyError = defineError({
-  name: 'MyError',
   code: {
     USER_NOT_FOUND: 'User not found',
     USER_EXISTED: 'User {name} existed'
@@ -60,7 +59,6 @@ throw new MyError('USER_EXISTED', { name: 'Alice' })
 import defineError from '@sumor/error'
 
 const MyError = defineError({
-  name: 'MyError',
   language: 'en', // default language
   code: {
     USER_NOT_FOUND: 'User not found',
@@ -90,7 +88,6 @@ console.log(error)
 import defineError from '@sumor/error'
 
 const MyError = defineError({
-  name: 'MyError',
   code: {
     USER_NOT_FOUND: 'User not found',
     USER_EXISTED: 'User {name} existed'
@@ -108,7 +105,6 @@ console.log(error.json())
 import defineError from '@sumor/error'
 
 const MyError = defineError({
-  name: 'MyError',
   code: {
     FIELD_VERIFY_FAILED: 'Field verify failed',
     FIELD_CANNOT_EMPTY: 'Field {name} cannot be empty',
@@ -172,7 +168,6 @@ output:
 import defineError from '@sumor/error'
 
 const MyError = defineError({
-  name: 'MyError',
   code: {
     FIELD_VERIFY_FAILED: 'Field verify failed',
     FIELD_CANNOT_EMPTY: 'Field {name} cannot be empty',

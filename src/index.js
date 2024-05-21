@@ -2,7 +2,6 @@ import getI18n from '@sumor/i18n'
 import type from './type.js'
 
 export default options => {
-  const name = options.name || 'SumorError'
   const code = options.code || {}
   const i18nConfig = options.i18n || {}
   const language = options.language || 'en'
@@ -11,7 +10,7 @@ export default options => {
   return class SumorError extends Error {
     constructor(code, data, errors) {
       super()
-      this.name = name
+      this.name = 'SumorError'
       this.code = code
       this._language = language
       this.errors = errors || []
@@ -34,7 +33,7 @@ export default options => {
     set language(language) {
       this._language = language
       for (const error of this.errors) {
-        if (error instanceof SumorError) {
+        if (error.name === 'SumorError') {
           error.language = language
         }
       }
@@ -42,7 +41,7 @@ export default options => {
 
     json() {
       const errors = this.errors.map(error => {
-        if (error instanceof SumorError) {
+        if (error.name === 'SumorError') {
           return error.json()
         } else {
           return {
