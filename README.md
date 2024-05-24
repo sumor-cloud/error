@@ -1,7 +1,7 @@
 # error
 
 A [Sumor Cloud](https://sumor.cloud) Tool.  
-[More Documentation](https://sumor.cloud)
+[More Documentation](https://sumor.cloud/error)
 A error handling library support multi-language, predefine error code and passing data.
 
 [![CI](https://github.com/sumor-cloud/error/actions/workflows/ci.yml/badge.svg)](https://github.com/sumor-cloud/error/actions/workflows/ci.yml)
