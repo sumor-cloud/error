@@ -34,11 +34,11 @@ export default options => {
       return this._language
     }
 
-    set language(language) {
-      this._language = language
+    set language(val) {
+      this._language = val || language
       for (const error of this.errors) {
         if (error.name === 'SumorError') {
-          error.language = language
+          error.language = val
         }
       }
     }

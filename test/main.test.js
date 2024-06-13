@@ -64,6 +64,10 @@ describe('main', () => {
     })
 
     const error = new MyError('USER_EXISTED', { name: 'Alice' })
+
+    error.language = null
+    expect(error.message).toEqual('User Alice existed')
+
     error.language = 'en' // change Error language
     expect(error.message).toEqual('User Alice existed')
 
