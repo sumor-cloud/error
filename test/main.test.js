@@ -83,7 +83,10 @@ describe('main', () => {
     })
 
     const error = new MyError('USER_EXISTED', { name: 'Alice' })
-    expect(error.json()).toEqual({ code: 'USER_EXISTED', message: 'User Alice existed' })
+    expect(error.json()).toEqual({
+      code: 'USER_EXISTED',
+      message: 'User Alice existed'
+    })
   })
   it('Underlying Error', () => {
     const MyError = defineError({
