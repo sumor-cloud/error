@@ -116,6 +116,49 @@ describe('main', () => {
         }
       ]
     })
+
+    const error2 = new MyError(
+      'FIELD_VERIFY_FAILED',
+      {},
+      new MyError('FIELD_CANNOT_EMPTY', { name: 'username' })
+    )
+    expect(error2.json()).toEqual({
+      code: 'FIELD_VERIFY_FAILED',
+      message: 'Field verify failed',
+      errors: [
+        {
+          code: 'FIELD_CANNOT_EMPTY',
+          message: 'Field username cannot be empty'
+        }
+      ]
+    })
+
+    const error3 = new MyError(
+      'FIELD_VERIFY_FAILED',
+      {},
+      {
+        message: 'Field username cannot be empty'
+      }
+    )
+    expect(error3.json()).toEqual({
+      code: 'FIELD_VERIFY_FAILED',
+      message: 'Field verify failed'
+    })
+
+    const error4 = new MyError('FIELD_VERIFY_FAILED', {}, [
+      new MyError('FIELD_CANNOT_EMPTY', { name: 'username' }),
+      { message: 'Field password is too long' }
+    ])
+    expect(error4.json()).toEqual({
+      code: 'FIELD_VERIFY_FAILED',
+      message: 'Field verify failed',
+      errors: [
+        {
+          code: 'FIELD_CANNOT_EMPTY',
+          message: 'Field username cannot be empty'
+        }
+      ]
+    })
   })
   it('Combine Standard Error', () => {
     const MyError = defineError({

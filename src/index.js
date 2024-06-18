@@ -13,7 +13,18 @@ export default options => {
       this.name = 'SumorError'
       this.code = code
       this._language = language
-      this.errors = errors || []
+      this.errors = []
+      if (errors) {
+        if (errors instanceof Error) {
+          this.errors = [errors]
+        } else if (errors instanceof Array) {
+          for (const error of errors) {
+            if (error instanceof Error) {
+              this.errors.push(error)
+            }
+          }
+        }
+      }
       if (type(data) === 'object') {
         this.data = data
       } else {
